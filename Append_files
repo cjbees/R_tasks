@@ -1,0 +1,34 @@
+#This is a pretty fast method, but if you're dealing with millions of files, there are even faster ways.
+#Get and set your working directory
+    getwd()
+    setwd("~/wherever")
+
+#You'll need the plyr package
+    install.packages("plyr")
+    library(ply)
+
+#Create a list of the files in your working directory
+file_list <- list.files(full.names=T)
+
+      #You can also indicate a different directory
+      #file_list <- list.files("./a_different_directory")
+
+
+#Option 1 - This will append all the files in the directory together into a new data frame, called data.set; 
+#however, it won't use the file's name to indicate where each entry came from.
+
+  dataset <- ldply(file_list, read.csv, header=TRUE)
+      str(dataset)
+
+#Option 2 - 
+#Here's a helper function to add filenames in a new 'Source' column
+
+  read_csv_filename <- function(filename){
+      ret <- read.csv(filename)
+      ret$Source <- filename
+      ret
+  }
+  
+  dataset_with_source <- ldply(file_list, read_csv_filename)
+
+#If you want to print out the data frame as a new csv, use write.csv(dataset_with_source)
