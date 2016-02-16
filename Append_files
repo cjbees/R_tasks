@@ -5,7 +5,7 @@
 
 #You'll need the plyr package
     install.packages("plyr")
-    library(ply)
+    library(plyr)
 
 #Create a list of the files in your working directory
 file_list <- list.files(full.names=T)
